@@ -116,6 +116,7 @@ if($summary{1}{isClip}>0 and $summary{2}{isClip}>0){
   $perc= round( ($summary{1}{RE}+$summary{2}{RE})*100/ ($summary{1}{isClip}+$summary{2}{isClip}) ,2);
 }
 
+=head
 print "\n";
 print "##-----------------------------------------------------------------\n";
 print "##  Report\n";
@@ -123,7 +124,9 @@ print "##-----------------------------------------------------------------\n";
 print "Input file: $bam\n";
 print "Time: $run_time seconds\n";
 print "motif: $motif\n";
+=cut
 print "clipped-mates with RE motif: $perc %\n";
+=head
 print "\n\n";
 
 print "## Details:--------------------------------------------------------\n";
@@ -156,6 +159,7 @@ if($summary{1}{isClip}>0 and $summary{2}{isClip}>0){
   print "Both (1st+2nd): ",($summary{1}{RE}+$summary{2}{RE}), " ($perc %)\n";
 }
 print "\n\n";
+=cut
 exit 0;
 
 
