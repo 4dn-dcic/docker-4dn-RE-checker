@@ -29,9 +29,11 @@ RUN wget https://github.com/samtools/samtools/releases/download/1.9/samtools-1.9
     ln -s samtools-1.9 samtools
 
 COPY scripts/ .
+RUN chmod +x run*.sh
+RUN chmod +x *.pl
 
 ENV PATH=/usr/local/bin/samtools/:$PATH
 ENV PATH=/usr/local/bin/scripts/:$PATH
-
+ENV PATH=/usr/local/perl/:$PATH
 
 CMD ["samtools"]
