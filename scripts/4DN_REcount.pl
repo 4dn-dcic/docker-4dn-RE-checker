@@ -57,6 +57,8 @@ sub help{
    print "   -w                Allow wobble matching of RE motif (default:T)\n";
    print "                       This option allows matching of RE motif around the vicinity of the clip position such that ligation junction may\n";
    print "                       may not be exactly the clipped coordinate. \n";
+   print "                       NOTE: The option assumes that the ligation junction is exactly at the center for the ligation motif \n";
+   print "                       NOTE: If the user is using multiple RE combination, then the option should be reset to default !! \n";
    print "\n";
    print "   -help|-h          Display usage information.\n";
    print "\n";
