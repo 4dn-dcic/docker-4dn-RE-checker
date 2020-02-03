@@ -50,9 +50,9 @@ inputs:
       prefix: -c
 
 outputs:
-  perc:
+  motif_percent:
     type: stdout
-stdout: checker-out.txt
+stdout: check-out.txt
 
 baseCommand: "run-checker.sh"
 
