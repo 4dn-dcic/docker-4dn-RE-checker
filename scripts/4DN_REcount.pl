@@ -21,6 +21,7 @@ my $motif = "";
 my $enzyme = "";
 my $min_mapq = 0;
 my $CLIP = 5; 
+my $WOBBLE="T"; 
 my $help = 0;
 Getopt::Long::GetOptions(
   'bam=s'            => \$bam,
@@ -28,13 +29,14 @@ Getopt::Long::GetOptions(
   'e=s'              => \$enzyme,
   'q=s'              => \$min_mapq,
   'c=s'              => \$CLIP,
+  'w=s'              => \$WOBBLE,
   'help'             => \$help,
   'h'                => \$help,
 ) or die "Incorrect input! Use -h for usage.\n";
 sub help{
   my $j = shift;
   if ($j) {
-   print "\nUsage: perl 4DNREcount.pl -bam [FILE_PATH] -m [STRING] -e [STRING] -c [INT] -q [INT] \n\n";
+   print "\nUsage: perl 4DNREcount.pl -bam [FILE_PATH] -m [STRING] -e [STRING] -c [INT] -q [INT] -w [LOGICAL] \n\n";
    print "This script counts an RE motifs at the clipped sites\n\n";
    print "Options (required*):\n";
    print "   -bam              Input bam file\n";
@@ -52,6 +54,10 @@ sub help{
    print "\n";
    print "   -c                Minimum softclipped read length for mapping the reads to the TE assembly (default:5)\n";
    print "\n";
+   print "   -w                Allow wobble matching of RE motif (default:T)\n";
+   print "                       This option allows matching of RE motif around the vicinity of the clip position such that ligation junction may\n";
+   print "                       may not be exactly the clipped coordinate. \n";
+   print "\n";
    print "   -help|-h          Display usage information.\n";
    print "\n";
    print "Default outputs:\n";
@@ -65,6 +71,8 @@ help($help);
 # I/O
 ###-------------------------------------------------------------------------------------------------------------------------------
 my %redb;
+$redb{"AluI"} = "AGCT|TCGA";
+$redb{"NotI"} = "GCGGCCGGCCGC|CGCCGGCCGGCG";
 $redb{"MboI"} = "GATCGATC|CTAGCTAG";
 $redb{"DpnII"} = "GATCGATC|CTAGCTAG";
 $redb{"HindIII"} = "AAGCTAGCTT|TTCGATCGAA";
@@ -226,7 +234,7 @@ sub motifPresenceGain {
   	$isREa = checkREatClip($seq,$motif,$a)
   }
   if($b>=$CLIP){
-    $isREb = checkREatClip($seq,$motif,(length($seq)-$b+1));
+   $isREb = checkREatClip($seq,$motif,(length($seq)-$b));
   }
   if($a>=$CLIP or $b>=$CLIP){
     $summary{$rd}{isClip}++;
@@ -245,9 +253,14 @@ sub checkREatClip{
     print " Motif not defined!! exiting! \n";
     exit 1;
   }else{
-    while ($seq =~ /$motif/g) {
-      if(($cl-1)>= $-[0] and ($cl-1)<= $+[0] and $isRE ==0) {
-        $isRE = 1;
+    while ($seq =~ /$motif/g){
+      if(($cl-1)>= $-[0] and $cl<= $+[0] and $isRE ==0) {
+        if($WOBBLE eq "T"){
+          $isRE = 1;
+        }else{
+          my $HALFMOTIFLEN = round(($+[0] - $-[0])/2,0);
+          $isRE = 1 if ($cl == ($-[0] + $HALFMOTIFLEN));
+        }
       }
     }
   }
