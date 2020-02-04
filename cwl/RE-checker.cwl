@@ -37,16 +37,22 @@ inputs:
               position: 2
               prefix: -e
 
-  map_qual:
+  wobble:
     type: string?
     inputBinding:
       position: 3
+      prefix: -w
+
+  map_qual:
+    type: string?
+    inputBinding:
+      position: 4
       prefix: -q
 
   min_length:
     type: string?
     inputBinding:
-      position: 4
+      position: 5
       prefix: -c
 
 outputs:
