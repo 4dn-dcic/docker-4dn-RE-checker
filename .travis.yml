@@ -22,7 +22,7 @@ before_script:
   - chmod +x tests/test_cwl.sh
 
 script:
-  - source tests/test_cwl.sh re-checker
+  - source tests/test_cwl.sh RE-checker
 
 after_success:
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
