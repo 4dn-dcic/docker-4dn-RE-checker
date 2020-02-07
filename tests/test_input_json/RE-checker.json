@@ -1,0 +1,10 @@
+{
+    "bamfile":
+    {
+        "class": "File",
+        "path": "../test_files/test.bam"
+    },
+    "motif": {
+        "common_enz": "MboI"
+    }
+}

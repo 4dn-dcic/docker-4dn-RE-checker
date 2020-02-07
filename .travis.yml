@@ -1,0 +1,43 @@
+sudo: required
+language: c python
+python: 2.7
+os: linux
+addons:
+  apt:
+    packages:
+      - oracle-java8-installer
+services:
+  - docker
+ 
+env:
+  - LOCAL_NAME=docker-4dn-re-checker_local REMOTE_NAME=4dndcic/4dn-re-checker
+
+install:
+  - sudo pip install schema_salad
+  - sudo pip install cwltool==1.0.20181201184214
+  - docker build -t $LOCAL_NAME .;
+
+before_script:
+  - if [ "$TRAVIS_PULL_REQUEST" != false ]; then
+       docker tag $LOCAL_NAME $REMOTE_NAME:$TRAVIS_PULL_REQUEST_BRANCH;
+    else
+       docker tag $LOCAL_NAME $REMOTE_NAME:$TRAVIS_BRANCH;
+    fi;
+  - chmod +x tests/tests_cwl.sh
+
+script:
+  - source tests/tests_cwl.sh re-checker
+
+after_success:
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+    if [ "$TRAVIS_BRANCH" == "master" ]; then
+      if [ "$TRAVIS_PULL_REQUEST" != false ]; then
+        docker tag $LOCAL_NAME $REMOTE_NAME:$TRAVIS_PULL_REQUEST_BRANCH;
+        docker push $REMOTE_NAME:$TRAVIS_PULL_REQUEST_BRANCH;
+      else 
+        docker tag $LOCAL_NAME $REMOTE_NAME:latest;
+        docker push $REMOTE_NAME:latest;
+      fi
+    fi
+  - echo 'good'
+  - date
