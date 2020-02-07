@@ -1,16 +1,12 @@
 sudo: required
 language: c python
-python: 2.7
+python: 3.6
 os: linux
-addons:
-  apt:
-    packages:
-      - oracle-java8-installer
 services:
   - docker
  
 env:
-  - LOCAL_NAME=docker-4dn-re-checker_local REMOTE_NAME=4dndcic/4dn-re-checker
+  - LOCAL_NAME=4dndcic/4dn-re-checker REMOTE_NAME=4dndcic/4dn-re-checker
 
 install:
   - sudo pip install schema_salad
@@ -23,10 +19,10 @@ before_script:
     else
        docker tag $LOCAL_NAME $REMOTE_NAME:$TRAVIS_BRANCH;
     fi;
-  - chmod +x tests/tests_cwl.sh
+  - chmod +x tests/test_cwl.sh
 
 script:
-  - source tests/tests_cwl.sh re-checker
+  - source tests/test_cwl.sh re-checker
 
 after_success:
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
