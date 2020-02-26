@@ -42,6 +42,7 @@ inputs:
     inputBinding:
       position: 3
       prefix: -w
+    default: T
 
   map_qual:
     type: string?
