@@ -85,5 +85,5 @@ for my $flank (keys %count){
 
 #print("total = $total_count\n");
 #print("motif = $count{$enz_pattern}\n");
-#printf("percent motif = %.2f\n", $count{$enz_pattern}/$total_count);
-printf("%.2f\n", $count{$enz_pattern}/$total_count);
+#printf("percent motif = %.2f\n", $count{$enz_pattern}/$total_count * 100);
+printf("%.2f\n", $count{$enz_pattern}/$total_count * 100);
