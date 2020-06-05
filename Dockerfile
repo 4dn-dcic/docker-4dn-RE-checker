@@ -1,5 +1,5 @@
 FROM ubuntu:16.04
-MAINTAINER Soo Lee (duplexa@gmail.com)
+MAINTAINER Soo Lee (duplexa@gmail.com) Clara Bakker (Clara_Bakker@hms.harvard.edu)
 
 # 1. general updates & installing necessary Linux components
 RUN apt-get update -y && apt-get install -y \
@@ -36,4 +36,4 @@ ENV PATH=/usr/local/bin/samtools/:$PATH
 ENV PATH=/usr/local/bin/scripts/:$PATH
 ENV PATH=/usr/local/perl/:$PATH
 
-CMD ["samtools"]
+CMD ["bash"]

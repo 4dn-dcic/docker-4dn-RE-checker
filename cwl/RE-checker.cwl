@@ -6,7 +6,7 @@ cwlVersion: v1.2
 
 requirements:
 - class: DockerRequirement
-  dockerPull: "4dndcic/4dn-re-checker:v1.2"
+  dockerPull: "4dndcic/4dn-re-checker:v1.3"
 
 - class: "InlineJavascriptRequirement"
 

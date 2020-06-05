@@ -34,5 +34,5 @@ outputs:
     type: stdout
 stdout: check-out.txt
 
-baseCommand: ["perl", "REchecker_chIAPET.pl"]
+baseCommand: ["perl", "REchecker_ChIAPET.pl"]
 
