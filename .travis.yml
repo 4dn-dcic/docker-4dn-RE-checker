@@ -1,0 +1,39 @@
+sudo: required
+language: c python
+python: 3.6
+os: linux
+services:
+  - docker
+ 
+env:
+  - LOCAL_NAME=4dndcic/4dn-re-checker REMOTE_NAME=4dndcic/4dn-re-checker
+
+install:
+  - sudo pip install schema_salad
+  - sudo pip install cwltool==1.0.20181201184214
+  - docker build -t $LOCAL_NAME .;
+
+before_script:
+  - if [ "$TRAVIS_PULL_REQUEST" != false ]; then
+       docker tag $LOCAL_NAME $REMOTE_NAME:$TRAVIS_PULL_REQUEST_BRANCH;
+    else
+       docker tag $LOCAL_NAME $REMOTE_NAME:$TRAVIS_BRANCH;
+    fi;
+  - chmod +x tests/test_cwl.sh
+
+script:
+  - source tests/test_cwl.sh RE-checker
+
+after_success:
+  - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
+    if [ "$TRAVIS_BRANCH" == "master" ]; then
+      if [ "$TRAVIS_PULL_REQUEST" != false ]; then
+        docker tag $LOCAL_NAME $REMOTE_NAME:$TRAVIS_PULL_REQUEST_BRANCH;
+        docker push $REMOTE_NAME:$TRAVIS_PULL_REQUEST_BRANCH;
+      else 
+        docker tag $LOCAL_NAME $REMOTE_NAME:latest;
+        docker push $REMOTE_NAME:latest;
+      fi
+    fi
+  - echo 'good'
+  - date
