@@ -1,5 +1,9 @@
 # docker-4dn-RE-checker
 
+_The current version of this pipeline pulls the Docker image from a public AWS Elastic Container Registry. If you prefer to pull from Docker Hub (DH), please use the tagged version utilizing DH: `v1.2_DH`._
+
+This repo contains the source files for a docker image stored in both `4dndcic/4dn-re-checker:v1.2` and AWS `public.ecr.aws/dcic-4dn/4dn-re-checker:v1.2`.
+
 ## Building docker image
 ```
 docker build -t 4dndcic/4dn-re-checker:v1.2 .
